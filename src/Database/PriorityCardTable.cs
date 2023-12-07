@@ -81,6 +81,78 @@ namespace Database
             return new PriorityCard(id, title, description, column, priority);
         }
 
+        public static List<PriorityCard> QueryCards(
+            SqliteConnection connection,
+            string text,
+            int priority
+        )
+        {
+            var command = connection.CreateCommand();
+
+            command.CommandText =
+                @"
+                SELECT cards.id, cards.title, description, columns.title, priority
+                FROM cards
+                JOIN priority_cards ON cards.id = priority_cards.id
+                JOIN columns ON cards.column_id = columns.id
+                WHERE cards.title LIKE $text
+                OR cards.description LIKE $text
+                OR columns.title LIKE $text
+                OR priority_cards.priority = $priority
+                ORDER BY columns.id ASC;
+                ";
+            command.Parameters.AddWithValue("$text", $"%{text}%");
+            command.Parameters.AddWithValue("$priority", priority);
+
+            var reader = command.ExecuteReader();
+
+            var cards = new List<PriorityCard>();
+
+            while (reader.Read())
+            {
+                var id = reader.GetInt32(0);
+                var title = reader.GetString(1);
+                var description = reader.GetString(2);
+                var column = new Column(reader.GetString(3));
+
+                cards.Add(new(id, title, description, column, priority));
+            }
+
+            return cards;
+        }
+
+        public static List<PriorityCard> QueryCards(SqliteConnection connection, int priority)
+        {
+            var command = connection.CreateCommand();
+
+            command.CommandText =
+                @"
+                SELECT cards.id, cards.title, description, columns.title, priority
+                FROM cards
+                JOIN priority_cards ON cards.id = priority_cards.id
+                JOIN columns ON cards.column_id = columns.id
+                WHERE priority_cards.priority = $priority
+                ORDER BY columns.id ASC;
+                ";
+            command.Parameters.AddWithValue("$priority", priority);
+
+            var reader = command.ExecuteReader();
+
+            var cards = new List<PriorityCard>();
+
+            while (reader.Read())
+            {
+                var id = reader.GetInt32(0);
+                var title = reader.GetString(1);
+                var description = reader.GetString(2);
+                var column = new Column(reader.GetString(3));
+
+                cards.Add(new(id, title, description, column, priority));
+            }
+
+            return cards;
+        }
+
         public static void UpdateCard(SqliteConnection connection, PriorityCard card)
         {
             UpdateCard(connection, (Card)card);
