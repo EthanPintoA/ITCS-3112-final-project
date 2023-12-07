@@ -1,0 +1,3 @@
+﻿using Test;
+
+TestClass.Program();
