@@ -5,6 +5,9 @@ namespace Database
 {
     public class CardTable
     {
+        /// <summary>
+        /// The SQL command text to create the cards table.
+        /// </summary>
         public static readonly string CreateTableCommandText =
             @"
             CREATE TABLE cards (
@@ -15,6 +18,12 @@ namespace Database
                 FOREIGN KEY (column_id) REFERENCES columns (id) ON DELETE CASCADE
             );";
 
+        /// <summary>
+        /// Create a card in the database.
+        /// </summary>
+        /// <param name="connection"> The database connection. </param>
+        /// <param name="card"> The card to create. </param>
+        /// <returns> The id of the card that was created. </returns>
         public static void CreateCard(SqliteConnection connection, Card card)
         {
             var command = connection.CreateCommand();
@@ -33,6 +42,12 @@ namespace Database
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Get a card from the database.
+        /// </summary>
+        /// <param name="connection"> The database connection. </param>
+        /// <param name="id"> The id of the card to get. </param>
+        /// <returns> The card with the given id, or null if it does not exist. </returns>
         public static Card? GetCard(SqliteConnection connection, int id)
         {
             var command = connection.CreateCommand();
@@ -60,6 +75,11 @@ namespace Database
             return new Card(id, title, description, column);
         }
 
+        /// <summary>
+        /// Get all cards from the database.
+        /// </summary>
+        /// <param name="connection"> The database connection. </param>
+        /// <returns> All cards in the database. </returns>
         public static List<Card> GetCards(SqliteConnection connection)
         {
             var command = connection.CreateCommand();
@@ -89,6 +109,12 @@ namespace Database
             return cards;
         }
 
+        /// <summary>
+        /// Get all cards from the database that match the given text.
+        /// </summary>
+        /// <param name="connection"> The database connection. </param>
+        /// <param name="text"> The text to search for. </param>
+        /// <returns> All cards in the database that match the given text. </returns>
         public static List<Card> QueryCards(SqliteConnection connection, string text)
         {
             var command = connection.CreateCommand();
@@ -122,6 +148,11 @@ namespace Database
             return cards;
         }
 
+        /// <summary>
+        /// Update a card in the database.
+        /// </summary>
+        /// <param name="connection"> The database connection. </param>
+        /// <param name="card"> The card to update. </param>
         public static void UpdateCard(SqliteConnection connection, Card card)
         {
             var command = connection.CreateCommand();
@@ -144,6 +175,11 @@ namespace Database
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Delete a card from the database.
+        /// </summary>
+        /// <param name="connection"> The database connection. </param>
+        /// <param name="id"> The id of the card to delete. </param>
         public static void DeleteCard(SqliteConnection connection, int id)
         {
             var command = connection.CreateCommand();

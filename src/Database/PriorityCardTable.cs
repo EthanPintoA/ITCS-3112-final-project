@@ -5,6 +5,9 @@ namespace Database
 {
     public class PriorityCardTable : CardTable
     {
+        /// <summary>
+        /// The SQL command text to create the priority_cards table.
+        /// </summary>
         public static new readonly string CreateTableCommandText =
             @"
             CREATE TABLE priority_cards (
@@ -13,6 +16,11 @@ namespace Database
                 FOREIGN KEY (id) REFERENCES cards (id) ON DELETE CASCADE
             );";
 
+        /// <summary>
+        /// Create a priority card in the database.
+        /// </summary>
+        /// <param name="connection"> The database connection. </param>
+        /// <param name="card"> The priority card to create. </param>
         public static void CreateCard(SqliteConnection connection, PriorityCard card)
         {
             CreateCard(connection, (Card)card);
@@ -52,6 +60,12 @@ namespace Database
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Get a priority card from the database.
+        /// </summary>
+        /// <param name="connection"> The database connection. </param>
+        /// <param name="id"> The id of the card to get. </param>
+        /// <returns> The priority card with the given id, or null if no such card exists. </returns>
         public static new PriorityCard? GetCard(SqliteConnection connection, int id)
         {
             var command = connection.CreateCommand();
@@ -81,6 +95,13 @@ namespace Database
             return new PriorityCard(id, title, description, column, priority);
         }
 
+        /// <summary>
+        /// Get all priority cards from the database ordered by column.
+        /// </summary>
+        /// <param name="connection"> The database connection. </param>
+        /// <param name="text"> The text to search for. </param>
+        /// <param name="priority"> The priority to search for. </param>
+        /// <returns> All priority cards in the database. </returns>
         public static List<PriorityCard> QueryCards(
             SqliteConnection connection,
             string text,
@@ -121,6 +142,12 @@ namespace Database
             return cards;
         }
 
+        /// <summary>
+        /// Get all priority cards from the database ordered by column.
+        /// </summary>
+        /// <param name="connection"> The database connection. </param>
+        /// <param name="priority"> The priority to search for. </param>
+        /// <returns> All priority cards in the database. </returns>
         public static List<PriorityCard> QueryCards(SqliteConnection connection, int priority)
         {
             var command = connection.CreateCommand();
@@ -153,6 +180,11 @@ namespace Database
             return cards;
         }
 
+        /// <summary>
+        /// Update a priority card in the database.
+        /// </summary>
+        /// <param name="connection"> The database connection. </param>
+        /// <param name="card"> The priority card to update. </param>
         public static void UpdateCard(SqliteConnection connection, PriorityCard card)
         {
             UpdateCard(connection, (Card)card);

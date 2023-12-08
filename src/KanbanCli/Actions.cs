@@ -286,6 +286,9 @@ namespace KanbanCli.Actions
             Console.WriteLine($"Updated card {options.Id}.");
         }
 
+        /// <summary>
+        /// Delete a card from the Kanban board.
+        /// </summary>
         public static void DeleteCard(DeleteCardOptions options)
         {
             var path = KanbanDatabase.GetDatabasePath(".");
@@ -313,6 +316,9 @@ namespace KanbanCli.Actions
         }
         #endregion
 
+        /// <summary>
+        /// Query cards on the Kanban board.
+        /// </summary>
         public static void QueryCards(QueryCardsOptions options)
         {
             var path = KanbanDatabase.GetDatabasePath(".");

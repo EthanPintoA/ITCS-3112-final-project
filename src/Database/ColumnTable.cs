@@ -5,6 +5,9 @@ namespace Database
 {
     static class ColumnTable
     {
+        /// <summary>
+        /// The SQL command text to create the columns table.
+        /// </summary>
         public static readonly string CreateTableCommandText =
             @"
             CREATE TABLE columns (
@@ -16,6 +19,9 @@ namespace Database
             CREATE INDEX title_index ON columns (title);
             ";
 
+        /// <summary>
+        /// The SQL command text to insert the default columns.
+        /// </summary>
         public static readonly string InsertDefaultColumnsCommandText =
             @"
             INSERT INTO columns (title)
@@ -24,6 +30,9 @@ namespace Database
             ('Done');
             ";
 
+        /// <summary>
+        /// Create a column in the database.
+        /// </summary>
         public static void CreateColumn(SqliteConnection connection, Column column)
         {
             var command = connection.CreateCommand();
@@ -65,6 +74,9 @@ namespace Database
             return id;
         }
 
+        /// <summary>
+        /// Rename a column in the database.
+        /// </summary>
         public static void RenameColumn(
             SqliteConnection connection,
             string oldTitle,
@@ -85,6 +97,9 @@ namespace Database
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Delete a column from the database.
+        /// </summary>
         public static void DeleteColumn(SqliteConnection connection, string title)
         {
             var command = connection.CreateCommand();

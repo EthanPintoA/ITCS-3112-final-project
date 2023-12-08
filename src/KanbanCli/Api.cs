@@ -85,7 +85,7 @@ namespace KanbanCli.Api
     }
     #endregion
 
-    [Verb("query-cards", HelpText = "Query cards on the Kanban board.")]
+    [Verb("query-cards", HelpText = "Query cards on the Kanban board. If no options are provided, all cards will be returned.")]
     public struct QueryCardsOptions
     {
         [Option(
